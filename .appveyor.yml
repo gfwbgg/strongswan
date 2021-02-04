@@ -11,6 +11,8 @@ environment:
     LEAK_DETECTIVE: no
     MONOLITHIC: yes
     TZ: Europe/Zurich
+    TESTS_VERBOSITY: 1
+    TESTS_RUNNERS: libtls
   matrix:
     - arch: x86_64
       bits: 64
@@ -28,9 +30,12 @@ install:
       IF "%IMG%" == "2017" set OPENSSL=OpenSSL-v11
       IF "%IMG%" == "2019" set OPENSSL=OpenSSL-v111
       set OPENSSL_DIR=/c/%OPENSSL%-%TEST%
+      dir C:\%OPENSSL%-%TEST%
+      C:\%OPENSSL%-%TEST%\bin\openssl.exe version -f
 
 build_script:
   - '%MSYS_SH% --login -c ". /etc/profile && cd $APPVEYOR_BUILD_FOLDER && ./scripts/test.sh deps"'
 
 test_script:
+  - '%MSYS_SH% --login -c ". /etc/profile && touch /$MSYSTEM/etc/strongswan.conf"'
   - '%MSYS_SH% --login -c ". /etc/profile && cd $APPVEYOR_BUILD_FOLDER && ./scripts/test.sh"'

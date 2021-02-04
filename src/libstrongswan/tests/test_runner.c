@@ -581,6 +581,8 @@ static bool run_case(test_case_t *tcase, test_runner_init_t init, char *cfg,
 
 		for (i = tfun->start; i < tfun->end; i++)
 		{
+			fprintf(stderr, "\npre-test before function '%s' [%d]:\n",
+							tfun->name, i);
 			if (pre_test(init, cfg))
 			{
 				struct timespec start;
